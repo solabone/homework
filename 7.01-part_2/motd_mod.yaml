@@ -1,0 +1,22 @@
+---
+- name: Set dynamic MOTD with IP, hostname and greeting (future-proof)
+  hosts: localhost
+  connection: local
+  become: true
+
+  tasks:
+    - name: Gather facts (IP and hostname)
+      setup:
+        filter: "ansible_default_ipv4,ansible_hostname"
+
+    - name: Write dynamic MOTD
+      copy:
+        content: |          
+          Добро пожаловать, системный администратор!
+          Хорошего дня!
+          Хост: {{ ansible_facts['hostname'] }}
+          IP-адрес: {{ ansible_facts['default_ipv4']['address'] }}          
+        dest: /etc/motd
+        owner: root
+        group: root
+        mode: "0644"

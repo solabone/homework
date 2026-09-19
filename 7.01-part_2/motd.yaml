@@ -1,32 +1,17 @@
 ---
-- name: Change MOTD using a variable (local)
+- name: Set MOTD using external variable file
   hosts: localhost
   connection: local
   become: true
 
-  vars:
-    motd_message: |
-      ============================================
-        Добро пожаловать на сервер!
-        Сегодня отличный день для работы.
-        Система готова к труду и обороне.
-      ============================================
+  vars_files:
+    - motd_vars.yaml
 
   tasks:
-    - name: Write new MOTD from variable
-      ansible.builtin.copy:
+    - name: Write MOTD from variable
+      copy:
+        content: "{{ my_motd_message }}"
         dest: /etc/motd
-        content: "{{ motd_message }}"
         owner: root
         group: root
         mode: "0644"
-        backup: true
-
-    - name: Display the new MOTD
-      ansible.builtin.command: cat /etc/motd
-      register: motd_content
-      changed_when: false
-
-    - name: Print MOTD content
-      ansible.builtin.debug:
-        var: motd_content.stdout_lines

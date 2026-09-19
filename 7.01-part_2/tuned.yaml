@@ -1,37 +1,23 @@
 ---
-- name: Install and configure tuned service (local)
+- name: Install and enable tuned
   hosts: localhost
   connection: local
   become: true
 
   tasks:
-    - name: Install tuned package
-      ansible.builtin.package:
+    - name: Update package list and install tuned
+      apt:
         name: tuned
         state: present
+        update_cache: yes
 
-    - name: Start tuned as daemon and enable on boot
-      ansible.builtin.systemd:
+    - name: Start the tuned service
+      systemd:
         name: tuned
-        enabled: true
         state: started
-        daemon_reload: true
 
-    - name: Show tuned status
-      ansible.builtin.systemd:
+    - name: Enable tuned to start on boot
+      systemd:
         name: tuned
-      register: tuned_status
-
-    - name: Print tuned status
-      ansible.builtin.debug:
-        var: tuned_status.status.ActiveState
-
-    - name: Show active profile
-      ansible.builtin.command: tuned-adm active
-      register: active_profile
-      changed_when: false
-
-    - name: Print active profile
-      ansible.builtin.debug:
-        var: active_profile.stdout_lines
+        enabled: yes
         
