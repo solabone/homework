@@ -1,0 +1,19 @@
+---
+- name: Deploy Apache with server info page
+  hosts: webservers
+  become: true
+  roles:
+    - apache_server
+
+  post_tasks:
+    - name: Verify site is reachable from the host itself
+      ansible.builtin.uri:
+        url: "http://127.0.0.1/index.txt"
+        method: GET
+        status_code: 200
+      register: site_check
+      failed_when: site_check.status != 200
+
+    - name: Show site availability result
+      ansible.builtin.debug:
+        msg: "Site on {{ ansible_hostname }} is available, status {{ site_check.status }}"

@@ -1,0 +1,33 @@
+---
+- name: Gather host facts
+  ansible.builtin.setup:
+    gather_subset:
+      - hardware
+      - network
+
+- name: Install Apache web server
+  ansible.builtin.apt:
+    name: apache2
+    state: present
+    update_cache: yes
+
+- name: Allow port 80 in UFW
+  community.general.ufw:
+    rule: allow
+    port: "80"
+    proto: tcp
+  ignore_errors: true
+
+- name: Ensure web root directory exists
+  ansible.builtin.file:
+    path: /var/www/html
+    state: directory
+    mode: "0755"
+
+- name: Deploy index.txt from template
+  ansible.builtin.template:
+    src: index.txt.j2
+    dest: /var/www/html/index.txt
+    owner: root
+    group: root
+    mode:

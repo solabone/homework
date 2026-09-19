@@ -1,0 +1,8 @@
+#cloud-config
+users:
+  - name: soldatov
+    groups: sudo
+    shell: /bin/bash
+    sudo: ["ALL=(ALL) NOPASSWD:ALL"]
+    ssh_authorized_keys:
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFeBknycZEaNUSPu+RSw9cXAAHO0JAdpacT75GBEC1ni vboxuser@sol

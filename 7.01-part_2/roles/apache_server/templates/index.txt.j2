@@ -1,0 +1,16 @@
+=== Server Information ===
+
+Hostname: {{ ansible_hostname }}
+Primary IP Address: {{ ansible_default_ipv4.address | default('Not found') }}
+
+CPU:
+  Model: {{ ansible_processor[1] | default('Unknown') }}
+  Cores: {{ ansible_processor_vcpus | default('Unknown') }}
+
+RAM: {{ (ansible_memtotal_mb / 1024) | round(1) }} GB
+
+First Disk:
+  Device: {{ (ansible_devices | dict2items)[0].key if ansible_devices | length > 0 else 'Not found' }}
+  Size: {{ (ansible_devices | dict2items)[0].value.size | default('Unknown') if ansible_devices | length > 0 else 'Unknown' }}
+
+Generated: {{ ansible_date_time.iso8601 }}
