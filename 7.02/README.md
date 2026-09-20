@@ -8,9 +8,9 @@
 
 # Решение
 
-- [tf](main.tf)
-- [tf](providers.tf)
-- [tf](varibles.tf)
+- [main.tf](main.tf)
+- [providers.tf](providers.tf)
+- [variables.tf](varibles.tf)
 
 - result: ![res](result.png)
 - docker ps: ![ps](ps.png)
