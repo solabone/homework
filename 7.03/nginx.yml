@@ -1,0 +1,22 @@
+---
+- name: Install and start nginx
+  hosts: webservers
+  become: true
+  remote_user: soldatov
+
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: true
+        cache_valid_time: 3600
+
+    - name: Install nginx
+      apt:
+        name: nginx
+        state: present
+
+    - name: Nginx enabled
+      service:
+        name: nginx
+        state: started
+        enabled: true

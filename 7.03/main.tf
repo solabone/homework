@@ -117,7 +117,7 @@ resource "local_file" "inventory" {
   ${yandex_compute_instance.web_b.network_interface.0.ip_address} ansible_user=soldatov
 
   [webservers:vars]
-  ansible_ssh_common_args='-o ProxyCommand="ssh -p 22 -W %h:%p -q soldatov@${yandex_compute_instance.bastion.network_interface.0.nat_ip_address}"'
+  ansible_ssh_common_args=-o ProxyCommand="ssh -p 22 -W %h:%p -q soldatov@${yandex_compute_instance.bastion.network_interface.0.nat_ip_address}"
   XYZ
   filename = "./hosts.ini"
 }
