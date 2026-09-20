@@ -7,6 +7,6 @@
 # .tfstate files
 *.tfstate
 *.tfstate.*
-cloud-init
+cloud-init.yml
 
 terraform.tfvars
